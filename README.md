@@ -1,6 +1,6 @@
 # Computer Vision & Deep Learning — Rahnema Bootcamp
 
-An educational project exploring how neural networks process images and propagate gradients across **depth** and **time**. The notebook implements foundational layers, compares plain and residual CNNs, and investigates memory in recurrent networks.
+A practice assignment from **Rahnema College’s Machine Learning Bootcamp**, exploring how neural networks process images and propagate gradients across **depth** and **time**. The notebook implements foundational layers, compares plain and residual CNNs, and investigates memory in recurrent networks.
 
 **Author:** Kian Aghmashe  
 **Context:** Introduction to Machine Learning — Rahnema College ML Bootcamp  
@@ -57,40 +57,29 @@ Residual connections improve optimization of the deeper model in this run, but t
 
 All four sequence runs remain close to the 10% chance baseline. The saved experiments therefore do **not** demonstrate successful learning of the sequence task or an accuracy improvement from using an LSTM. Gradient-flow diagnostics and task accuracy should be interpreted separately; further investigation is needed.
 
-## Setup and execution
+## Run in Google Colab
 
-Use a Python environment with NumPy, PyTorch, torchvision, Matplotlib, scikit-image, Pillow, and JupyterLab. A CUDA-capable GPU is recommended for the training sections; the notebook falls back to CPU when CUDA is unavailable.
+[Open the notebook in Google Colab](https://colab.research.google.com/github/kian4A/cv_rahnema/blob/main/project_cv.ipynb)
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install numpy torch torchvision matplotlib scikit-image pillow jupyterlab
-```
+1. Open the notebook using the link above, or upload `project_cv.ipynb` to Google Colab.
+2. Choose **Runtime → Change runtime type** and select a **GPU** accelerator (T4 if available).
+3. In Part 2, change `download=False` to `download=True` in **both** CIFAR-10 dataset calls. This allows the dataset to download into the fresh Colab runtime:
 
-For GPU execution, use a PyTorch installation compatible with your machine's CUDA setup. Exact dependency versions are not pinned in this repository.
+   ```python
+   full_tr = torchvision.datasets.CIFAR10(
+       "./data", train=True, download=True, transform=tf_train
+   )
+   full_te = torchvision.datasets.CIFAR10(
+       "./data", train=False, download=True, transform=tf_test
+   )
+   ```
 
-### Prepare CIFAR-10
+4. Run the notebook cells from top to bottom. MNIST downloads automatically in Part 3.
+5. Save a copy of the completed notebook with its outputs to keep the results and plots.
 
-The notebook currently loads CIFAR-10 with `download=False`. Before running it for the first time, execute this from the repository directory:
+The notebook uses NumPy, PyTorch, torchvision, Matplotlib, scikit-image, and Pillow. If an import is missing in your Colab runtime, install the corresponding package in a code cell using `%pip install package-name`.
 
-```bash
-python - <<'PY'
-from torchvision.datasets import CIFAR10
-CIFAR10(root='./data', train=True, download=True)
-CIFAR10(root='./data', train=False, download=True)
-PY
-```
-
-MNIST is downloaded automatically by the notebook. Sample photos come from `skimage.data`; the notebook's fallback image paths require local files that are not included.
-
-### Open the notebook
-
-```bash
-jupyter lab project_cv.ipynb
-```
-
-Select the project environment and run cells from top to bottom. Initial dataset downloads require internet access. For Google Colab, enable a GPU runtime and prepare CIFAR-10 before its loading cell.
+Training time depends on the assigned hardware. Dataset downloads require internet access, and files in the temporary Colab runtime may be lost when the runtime is reset.
 
 ## Notes and limitations
 
